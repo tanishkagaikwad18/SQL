@@ -1,26 +1,53 @@
-create database test1;
-use test1;
+show databases; 
 
-create table test_table (
-student_id tinyint primary key,
-full_name varchar(100) not null,
-Age tinyint check (Age>=18),
-Email varchar (100) unique, 
-degree varchar (50) default "NA"
+use banking_db;
+CREATE TABLE Accounts (
+    AccountID INT,
+    AccountType VARCHAR(20),
+    Balance DECIMAL(10,2)
 );
 
-select*from test_table;
+select * from Accounts;
 
-insert into test_table (student_id,full_name, Age, Email, degree)
-values (01, "Mihir Gaikwad", 18, "mihirgaikwad15@gmail.com", "BDes"),
-(02, "Aarsuh Anerao", 18, "aarush03@gmail.com", "BCom"),
-(03, "Athansh Anerao", 20, "athansh2@gmail.com", "BCS"),
-(04, "Priyal Garg", 22, "priyalgarg9@gmail.com", "BBA"),
-(05, "Nandini Sharma", 22, "nandinisharma20@gmail.com", "BTech");
-insert into test_table (student_id,full_name, Age, Email, degree)
-values (06, "Girisha Mahajan", 22, "girisha22@gamil.com", "BE");
-insert into test_table (student_id,full_name, Age, Email, degree)
-values (07, "Siddhi Chirmulla", 21, "siddhi01@gamil.com", "LLB"),
-(08, "Vaibhavi Biradar", 23, "vaibhavi14@gamil.com", "ICAI");
-insert into test_table (student_id,full_name, Age, Email, degree)
-values (09, "Harshal Ekbote", 18, "harshal4@gmail.com", default);
+select AccountID from Accounts;
+select AccountType from Accounts;
+select*from Accounts;
+
+CREATE TABLE Transactions (
+    TransactionID INT,
+    TransactionDate DATE,
+    Amount DECIMAL(10,2),
+    TransactionType VARCHAR(20)
+);
+select*from Transactions;
+CREATE TABLE Branches (
+    BranchID INT,
+    BranchName VARCHAR(100),
+    BranchAddress VARCHAR(200),
+    BranchPhone VARCHAR(15)
+);
+select*from Branches;
+
+CREATE TABLE AccountBranches ( 
+		AssignmentDate DATE
+);
+select*from AccountBranches;
+
+CREATE TABLE Loans (
+    LoanID INT,
+    LoanAmount DECIMAL(10,2),
+    InterestRate DECIMAL(5,2),
+    StartDate DATE,
+    EndDate DATE
+);
+select*from Loans;
+
+alter table Transactions
+add column city varchar (50) not null;
+
+ALTER TABLE Customers
+MODIFY Phone VARCHAR(20);
+
+ALTER TABLE Accounts
+ADD CONSTRAINT chk_MinBalance
+CHECK (Balance >= 1000);
