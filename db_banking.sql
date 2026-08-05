@@ -1,17 +1,22 @@
-show databases; 
+create database BankingDB;
+use BankingDB;
 
-use banking_db;
+show databases;
+
+CREATE TABLE Customers (
+    CustomerID INT PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    Email VARCHAR(100),
+    Phone VARCHAR(15),
+    AccountCreationDate DATE
+);
+
 CREATE TABLE Accounts (
     AccountID INT,
     AccountType VARCHAR(20),
     Balance DECIMAL(10,2)
 );
-
-select * from Accounts;
-
-select AccountID from Accounts;
-select AccountType from Accounts;
-select*from Accounts;
 
 CREATE TABLE Transactions (
     TransactionID INT,
@@ -19,19 +24,17 @@ CREATE TABLE Transactions (
     Amount DECIMAL(10,2),
     TransactionType VARCHAR(20)
 );
-select*from Transactions;
+
 CREATE TABLE Branches (
     BranchID INT,
     BranchName VARCHAR(100),
     BranchAddress VARCHAR(200),
     BranchPhone VARCHAR(15)
 );
-select*from Branches;
 
 CREATE TABLE AccountBranches ( 
 		AssignmentDate DATE
 );
-select*from AccountBranches;
 
 CREATE TABLE Loans (
     LoanID INT,
@@ -40,10 +43,11 @@ CREATE TABLE Loans (
     StartDate DATE,
     EndDate DATE
 );
-select*from Loans;
 
-alter table Transactions
-add column city varchar (50) not null;
+ALTER TABLE Customers
+ADD DateOfBirth DATE;
+
+SELECT*FROM CUSTOMERS;
 
 ALTER TABLE Customers
 MODIFY Phone VARCHAR(20);
@@ -51,3 +55,20 @@ MODIFY Phone VARCHAR(20);
 ALTER TABLE Accounts
 ADD CONSTRAINT chk_MinBalance
 CHECK (Balance >= 1000);
+
+DROP TABLE AccountBranches;
+
+ALTER TABLE Accounts
+ADD CustomerID INT;
+
+ALTER TABLE Accounts
+ADD CONSTRAINT FK_Accounts_Customers
+FOREIGN KEY (CustomerID)
+REFERENCES Customers(CustomerID);
+
+ALTER TABLE Customers
+MODIFY FirstName VARCHAR(50) NOT NULL;
+
+ALTER TABLE Customers
+ADD CONSTRAINT uq_Email UNIQUE (Email);
+
