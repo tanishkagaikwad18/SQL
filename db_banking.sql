@@ -1,4 +1,5 @@
 create database BankingDB;
+
 use BankingDB;
 
 show databases;
@@ -72,3 +73,37 @@ MODIFY FirstName VARCHAR(50) NOT NULL;
 ALTER TABLE Customers
 ADD CONSTRAINT uq_Email UNIQUE (Email);
 
+ALTER TABLE Accounts 
+ADD PRIMARY KEY (AccountID);
+
+ALTER TABLE Transactions
+ADD PRIMARY KEY (TransactionID);
+
+ALTER TABLE Loans
+ADD PRIMARY KEY (LoanID);
+
+ALTER TABLE Transactions
+ADD AccountID INT; 
+
+ALTER TABLE Transactions
+ADD CONSTRAINT Fk_Transactions_Accounts
+FOREIGN KEY (AccountID) REFERENCES Accounts (AccountID);
+
+ALTER TABLE Accounts
+ADD BranchID INT;
+
+ALTER TABLE Branches
+ADD PRIMARY KEY (BranchID);
+
+ALTER TABLE Accounts
+ADD CONSTRAINT FK_Accounts_Branches
+FOREIGN KEY (BranchID)
+REFERENCES Branches(BranchID);
+
+ALTER TABLE Loans  
+ADD CustomerID INT;
+
+ALTER TABLE Loans
+ADD CONSTRAINT FK_Loans_Customers
+FOREIGN KEY (CustomerID)
+REFERENCES Customers(CustomerID);
