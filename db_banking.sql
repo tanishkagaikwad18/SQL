@@ -45,6 +45,19 @@ CREATE TABLE Loans (
     EndDate DATE
 );
 
+INSERT INTO Loans (LoanID, LoanAmount, InterestRate, StartDate, EndDate)
+VALUES
+(101, 50000.00, 8.50, '2025-01-15', '2028-01-15'),
+(102, 75000.00, 9.25, '2025-03-10', '2030-03-10'),
+(103, 100000.00, 7.75, '2024-06-01', '2029-06-01'),
+(104, 25000.00, 10.50, '2025-07-20', '2027-07-20'),
+(105, 150000.00, 8.00, '2024-09-15', '2031-09-15'),
+(106, 60000.00, 9.00, '2026-01-05', '2029-01-05'),
+(107, 90000.00, 8.75, '2025-11-12', '2030-11-12'),
+(108, 35000.00, 11.25, '2026-02-20', '2028-02-20');
+
+SELECT*FROM Loans;
+
 ALTER TABLE Customers
 ADD DateOfBirth DATE;
 
@@ -397,3 +410,62 @@ SELECT
 FROM Accounts
 GROUP BY AccountType
 HAVING SUM(Balance) > 25000;
+
+Select
+    LoanID,
+    CustomerID, LoanAmount, RANK() OVER(
+        ORDER BY LoanAmount DESC
+    ) AS LoanRank
+FROM Loans;
+
+SELECT
+    LoanID,
+    CustomerID,
+    LoanAmount,
+    DENSE_RANK() OVER(
+        ORDER BY LoanAmount DESC
+    ) AS DenseRank
+FROM Loans;
+
+SELECT
+    LoanID,
+    CustomerID,
+    LoanAmount,
+    ROW_NUMBER() OVER(
+        ORDER BY LoanAmount DESC
+    ) AS RowNumber
+FROM Loans;
+
+SELECT
+    LoanID,
+    CustomerID,
+    LoanAmount,
+    ROW_NUMBER() OVER(
+        PARTITION BY CustomerID
+        ORDER BY LoanAmount DESC
+    ) AS RowNum
+FROM Loans;
+
+SELECT
+    LoanID, CustomerID,LoanAmount,
+    SUM(LoanAmount) OVER(
+        ORDER BY LoanAmount DESC
+    ) AS RunningTotal
+FROM Loans;
+
+SELECT
+    LoanID,
+    CustomerID,
+    LoanAmount,
+    LAG(LoanAmount) OVER(
+        ORDER BY LoanAmount DESC
+    ) AS PreviousLoanAmount
+FROM Loans;
+
+SELECT
+    LoanID, CustomerID, LoanAmount,
+    LEAD(LoanAmount) OVER(
+        ORDER BY LoanAmount DESC
+    ) AS NextLoanAmount
+FROM Loans;
+
